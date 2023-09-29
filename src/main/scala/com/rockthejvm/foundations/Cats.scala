@@ -40,7 +40,7 @@ object Cats {
 
   import cats.Applicative
   val applicativeList = Applicative[List]
-  val aSimpleList = applicativeList.pure(42)
+  val aSimpleList     = applicativeList.pure(42)
   import cats.syntax.applicative.*
   val aSimpleList_v2 = 42.pure[List]
 
@@ -51,7 +51,7 @@ object Cats {
   }
 
   import cats.FlatMap
-  val flatMapList = FlatMap[List]
+  val flatMapList    = FlatMap[List]
   val flatMappedList = flatMapList.flatMap(List(1, 2, 3))(x => List(x, x + 1))
   import cats.syntax.flatMap.*
   def crossProduct[F[_]: FlatMap, A, B](containerA: F[A], containerB: F[B]): F[(A, B)] =
@@ -71,7 +71,7 @@ object Cats {
 
   import cats.Monad
   val monadList = Monad[List]
-  def crossProduct_v2[F[_] : Monad, A, B](containerA: F[A], containerB: F[B]): F[(A, B)] =
+  def crossProduct_v2[F[_]: Monad, A, B](containerA: F[A], containerB: F[B]): F[(A, B)] =
     for {
       a <- containerA
       b <- containerB
@@ -84,9 +84,9 @@ object Cats {
 
   import cats.ApplicativeError
   type ErrorOr[A] = Either[String, A]
-  val applicativeEither = ApplicativeError[ErrorOr, String]
+  val applicativeEither          = ApplicativeError[ErrorOr, String]
   val desiredValue: ErrorOr[Int] = applicativeEither.pure(42)
-  val failedValue: ErrorOr[Int] = applicativeEither.raiseError("Something bad happened")
+  val failedValue: ErrorOr[Int]  = applicativeEither.raiseError("Something bad happened")
   import cats.syntax.applicativeError.*
   val failedValue_v2: ErrorOr[Int] = "Something bad happened".raiseError
 
